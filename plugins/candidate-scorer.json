@@ -1,0 +1,395 @@
+{
+  "slug": "candidate-scorer",
+  "name": "Candidate Scorer",
+  "domain": "HR / Recruiting",
+  "target_user": "Domain operator, business owner, analyst, or team member who needs this workflow executed reliably.",
+  "core_job": "CV + job description → explainable candidate fit",
+  "deep_features": [
+    "skills evidence mapping",
+    "experience timeline",
+    "bias-safe anonymization",
+    "weighted scoring rubric",
+    "shortlist ranking",
+    "interview plan",
+    "red flag detector",
+    "calibration against past hires"
+  ],
+  "input_schema": [
+    {
+      "key": "cv",
+      "label": "CV",
+      "type": "text",
+      "required": true,
+      "help": "Affects input: CV.",
+      "affects": [
+        "prompt",
+        "workflow"
+      ],
+      "default": ""
+    },
+    {
+      "key": "job_description",
+      "label": "job description",
+      "type": "text",
+      "required": true,
+      "help": "Affects input: job description.",
+      "affects": [
+        "prompt",
+        "workflow"
+      ],
+      "default": ""
+    },
+    {
+      "key": "work_brief",
+      "label": "Work brief / source text / URL / instructions",
+      "type": "textarea",
+      "required": true,
+      "default": "",
+      "help": "Paste the material, URL, description, or instruction needed for this project.",
+      "affects": [
+        "prompt",
+        "workflow"
+      ]
+    }
+  ],
+  "customization_schema": [
+    {
+      "key": "execution_mode",
+      "label": "Execution mode",
+      "type": "select",
+      "required": false,
+      "options": [
+        "Draft",
+        "Production",
+        "Audit / strict review",
+        "JSON/API output"
+      ],
+      "default": "Production",
+      "help": "Controls strictness, depth, and output format for this project workflow.",
+      "affects": [
+        "workflow",
+        "validation",
+        "export"
+      ]
+    },
+    {
+      "key": "role_family",
+      "label": "role family",
+      "type": "select",
+      "required": false,
+      "help": "Affects customization: role family.",
+      "affects": [
+        "prompt",
+        "validation",
+        "workflow",
+        "export"
+      ],
+      "default": ""
+    },
+    {
+      "key": "seniority",
+      "label": "seniority",
+      "type": "select",
+      "required": false,
+      "help": "Affects customization: seniority.",
+      "affects": [
+        "prompt",
+        "validation",
+        "workflow",
+        "export"
+      ],
+      "options": [
+        "intern",
+        "junior",
+        "mid-level",
+        "senior",
+        "lead",
+        "executive"
+      ],
+      "default": "intern"
+    },
+    {
+      "key": "must_have_skills",
+      "label": "must-have skills",
+      "type": "textarea",
+      "required": false,
+      "help": "Affects customization: must-have skills.",
+      "affects": [
+        "prompt",
+        "validation",
+        "workflow",
+        "export"
+      ],
+      "default": ""
+    },
+    {
+      "key": "score_weights",
+      "label": "score weights",
+      "type": "text",
+      "required": false,
+      "help": "Affects customization: score weights.",
+      "affects": [
+        "prompt",
+        "validation",
+        "workflow",
+        "export"
+      ],
+      "default": ""
+    },
+    {
+      "key": "country_hiring_rules",
+      "label": "country hiring rules",
+      "type": "select",
+      "required": false,
+      "help": "Affects customization: country hiring rules.",
+      "affects": [
+        "prompt",
+        "validation",
+        "workflow",
+        "export"
+      ],
+      "options": [
+        "United States",
+        "United Kingdom",
+        "Egypt",
+        "UAE",
+        "Saudi Arabia",
+        "Germany",
+        "Custom"
+      ],
+      "default": "United States"
+    },
+    {
+      "key": "anonymization",
+      "label": "anonymization",
+      "type": "text",
+      "required": false,
+      "help": "Affects customization: anonymization.",
+      "affects": [
+        "prompt",
+        "validation",
+        "workflow",
+        "export"
+      ],
+      "default": ""
+    },
+    {
+      "key": "company_rubric",
+      "label": "company rubric",
+      "type": "text",
+      "required": false,
+      "help": "Affects customization: company rubric.",
+      "affects": [
+        "prompt",
+        "validation",
+        "workflow",
+        "export"
+      ],
+      "default": ""
+    },
+    {
+      "key": "output_format",
+      "label": "output format",
+      "type": "select",
+      "required": false,
+      "help": "Affects customization: output format.",
+      "affects": [
+        "prompt",
+        "validation",
+        "workflow",
+        "export"
+      ],
+      "options": [
+        "Markdown",
+        "JSON",
+        "CSV",
+        "PDF",
+        "DOCX",
+        "XLSX"
+      ],
+      "default": "Markdown"
+    },
+    {
+      "key": "language",
+      "label": "language",
+      "type": "select",
+      "required": false,
+      "help": "Affects customization: language.",
+      "affects": [
+        "prompt",
+        "validation",
+        "workflow",
+        "export"
+      ],
+      "options": [
+        "English",
+        "Arabic",
+        "Egyptian Arabic",
+        "French",
+        "German",
+        "Spanish"
+      ],
+      "default": "English"
+    },
+    {
+      "key": "privacy_mode",
+      "label": "privacy mode",
+      "type": "select",
+      "required": false,
+      "help": "Affects customization: privacy mode.",
+      "affects": [
+        "prompt",
+        "validation",
+        "workflow",
+        "export"
+      ],
+      "options": [
+        "cloud allowed",
+        "local only",
+        "redact sensitive data"
+      ],
+      "default": "cloud allowed"
+    },
+    {
+      "key": "confidence_threshold",
+      "label": "Confidence threshold",
+      "type": "slider",
+      "required": false,
+      "min": 0,
+      "max": 100,
+      "default": 75,
+      "help": "Items below this confidence are escalated to the human review queue.",
+      "affects": [
+        "validation",
+        "workflow",
+        "export"
+      ]
+    }
+  ],
+  "workflow_steps": [
+    "CV + job description",
+    "explainable candidate fit"
+  ],
+  "ui_panels": [
+    "JD/CV upload",
+    "score dashboard",
+    "evidence viewer",
+    "interview kit",
+    "comparison board"
+  ],
+  "output_formats": [
+    "candidate report",
+    "interview questions",
+    "ATS JSON",
+    "shortlist CSV"
+  ],
+  "integrations": [
+    "File upload",
+    "REST API",
+    "Export download",
+    "Job history",
+    "ATS optional"
+  ],
+  "guardrails": [
+    "Show uncertainty and confidence",
+    "Cite evidence from input when possible",
+    "Human review required for legal, medical, financial, hiring, or security decisions",
+    "Do not invent facts absent from input"
+  ],
+  "recommended_models": {
+    "drafting": "fast cloud or local instruct model",
+    "reasoning": "strong reasoning model",
+    "private_documents": "local model via Ollama/LM Studio/vLLM",
+    "vision_or_pdf": "vision-capable model when image pages are used"
+  },
+  "suite": "HR & Recruiting Suite",
+  "implementation_status": "real_local_engine_registered",
+  "analysis_modules": [
+    "resume_parse",
+    "candidate_match",
+    "fair_hiring_guardrails"
+  ],
+  "output_sections": [
+    "Fit score",
+    "Skill matrix",
+    "Interview focus",
+    "Risk notes"
+  ],
+  "field_validations": [
+    {
+      "field": "country_hiring_rules",
+      "rule": "Require human review for legal/tax/country-specific rules; do not treat AI result as final authority."
+    },
+    {
+      "field": "language",
+      "rule": "Preserve requested language in final deliverable unless source text requires bilingual output."
+    }
+  ],
+  "scorecards": [
+    "Role fit",
+    "Evidence strength",
+    "Bias risk",
+    "Interview readiness",
+    "ATS readiness"
+  ],
+  "automation_hooks": [
+    {
+      "name": "save_job_snapshot",
+      "type": "internal",
+      "description": "Persist inputs, customization, uploads, output, and usage for audit/history."
+    },
+    {
+      "name": "export_pack",
+      "type": "internal",
+      "description": "Export Markdown, JSON, PDF, and DOCX from the completed job."
+    },
+    {
+      "name": "human_review_queue",
+      "type": "manual",
+      "description": "Flag low-confidence, legal/medical/finance/security/compliance-sensitive items for human review."
+    }
+  ],
+  "ux_profile": {
+    "name": "Talent Ops Workspace",
+    "accent": "#fbbf24",
+    "layout": "Role/person intake → scoring → workflow stage → document/interview package",
+    "hero": "Hiring and people-ops interface with structured scorecards, candidate/job fit, documents, and review gates.",
+    "components": [
+      "Candidate profile",
+      "Requirement match matrix",
+      "Bias/compliance guardrail",
+      "Interview questions",
+      "Hiring decision panel"
+    ],
+    "metrics": [
+      "Role fit",
+      "Skills coverage",
+      "Risk flags",
+      "Next-step clarity"
+    ],
+    "quick_actions": [
+      "Score fit",
+      "Explain gaps",
+      "Create interview plan",
+      "Prepare review summary"
+    ],
+    "review_lanes": [
+      "Intake",
+      "Assess",
+      "Interview",
+      "Decide",
+      "Send"
+    ],
+    "empty_state": "Paste a CV, job description, review notes, or offer inputs. ATS sync needs real connector setup.",
+    "icon": "🧑‍💼",
+    "project_slug": "candidate-scorer",
+    "domain": "HR / Recruiting"
+  },
+  "final_gui_status": {
+    "standalone_folder_gui": true,
+    "domain_specific_ux_profile": true,
+    "elegant_component_system": true,
+    "no_fake_live_data_policy": true,
+    "requires_real_connectors_for_external_actions": true
+  }
+}
